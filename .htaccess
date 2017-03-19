@@ -1,33 +1,28 @@
-<IfModule mod_rewrite.c>
-    RewriteEngine on
+# InstantCMS rewriting rules
 
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^(.*)$ index.php?%{QUERY_STRING} [L]
+# Initialization
+AddDefaultCharset utf-8
+Options -Indexes
+RewriteEngine on
 
-#    Redirect www urls to non-www.
-#    RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
-#    RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
-</IfModule>
+# HTTPS redirect if available
+#RewriteCond %{HTTPS} !=on
+#RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
 
-# Disable directory listing (highly recommended). Commented out as might not work on some hosts
-# Options -Indexes
+# Hide text files
+RewriteRule ^.htaccess$ - [F]
+RewriteRule ^credits.txt$ - [F]
+RewriteRule ^readme.txt$ - [F]
+RewriteRule ^license.(.*).txt$ - [F]
 
-# Disable accessing files without extension (recommended). Commented out as might not work on some hosts
-# Options -MultiViews
+# Remove trailing slash from URLs
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.+)/$  /$1 [R=301,L]
 
-#Modified rules for 1and1 hosting
-#AddHandler x-mapp-php5.4 .php3 .php4 .php .phtml
-#RewriteEngine on
-#RewriteBase /
-#RewriteCond %{REQUEST_FILENAME} !-f
-#RewriteCond %{REQUEST_FILENAME} !-d
-#RewriteRule ^(.*)$ /index.php?%{QUERY_STRING} [L]
+# Sitemaps
+RewriteRule ^sitemap(.*).xml$ ./cache/static/sitemaps/sitemap$1.xml [L]
 
-
-
-#Additional options to extend server limits. Commented out as might not work on some hosts
-#php_value upload_max_filesize 1000M
-#php_value post_max_size 1000M
-#php_value memory_limit 100M
-
+# Engine routing
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ ./index.php [L]
