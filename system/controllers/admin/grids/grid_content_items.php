@@ -1,18 +1,18 @@
 <?php
 
 function grid_content_items($controller, $ctype_name=false){
-
-    $options = array(
-        'is_auto_init' => false,
-        'is_sortable' => true,
-        'is_filter' => true,
-        'is_pagination' => true,
-        'is_draggable' => false,
-        'is_selectable' => true,
-        'order_by' => 'id',
-        'order_to' => 'desc',
-        'show_id' => true
-    );
+  
+  $options = array(
+    'is_auto_init' => false,
+    'is_sortable' => true,
+    'is_filter' => true,
+    'is_pagination' => true,
+    'is_draggable' => false,
+    'is_selectable' => true,
+    'order_by' => 'id',
+    'order_to' => 'desc',
+    'show_id' => true
+  );
 
     $columns = array(
         'id' => array(

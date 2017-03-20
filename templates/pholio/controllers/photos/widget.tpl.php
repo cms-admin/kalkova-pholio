@@ -1,59 +1,69 @@
 <?php $this->addJS( $this->getJavascriptFileName('fileuploader') ); ?>
 <?php $this->addJS( $this->getJavascriptFileName('photos') ); ?>
 <?php $id = !empty($album['id']) ? $album['id'] : ''; ?>
-
-<fieldset>
-
+<div class="tab">
+  <fieldset>
     <legend><?php echo LANG_PHOTOS; ?></legend>
 
-    <div id="album-photos-widget" data-delete-url="<?php echo $this->href_to('delete'); ?>">
+    <div class="ui-photos__widget" data-delete-url="<?php echo $this->href_to('delete'); ?>">
 
-        <div class="previews_list">
-            <?php if ($photos){ ?>
-                <?php foreach($photos as $photo){ ?>
-                    <?php $presets = array_keys($photo['image']); $small_preset = end($presets); ?>
-                    <div class="preview block" rel="<?php echo $photo['id']; ?>">
-                        <div class="thumb">
-                            <a rel="edit_list" class="ajax-modal hover_image" href="<?php echo html_image_src($photo['image'], $preset_big, true); ?>">
-                                <?php echo html_image($photo['image'], $small_preset, $photo['title']); ?>
-                            </a>
-                            <?php if(empty($is_edit)){ ?>
-                            <div class="actions">
-                                <a class="delete" href="#" onclick="return icms.photos.remove(<?php echo $photo['id']; ?>)">
-                                    <?php echo LANG_DELETE; ?>
-                                </a>
-                            </div>
-                            <?php } else { ?>
-                                <?php foreach ($photo['image'] as $preset => $path) { ?>
-                                    <?php if($preset == $small_preset){ continue; } ?>
-                                        <a title="<?php echo $photo['sizes'][$preset]['width']; ?> x <?php echo $photo['sizes'][$preset]['height']; ?>" rel="edit_list" href="<?php echo html_image_src($photo['image'], $preset, true); ?>"></a>
-                                <?php } ?>
-                            <?php } ?>
-                        </div>
-                        <div class="info">
-                            <div class="title">
-                                <?php echo html_input('text', 'photos['.$photo['id'].']', $photo['title']); ?>
-                            </div>
-                            <div class="photo_content">
-                                <?php echo html_editor('content['.$photo['id'].']', $photo['content_source'], array('set_name' => 'photos')); ?>
-                            </div>
-                            <div class="photo_additional">
-                                <div class="photo_privacy">
-                                    <?php echo html_select('is_private['.$photo['id'].']', array(LANG_PRIVACY_PUBLIC, LANG_PRIVACY_PRIVATE, LANG_PHOTOS_ACCESS_BY_LINK), $photo['is_private']); ?>
-                                </div>
-                                <?php if($types){ ?>
-                                    <div class="photo_type">
-                                        <?php echo html_select('type['.$photo['id'].']', $types, $photo['type']); ?>
-                                    </div>
-                                <?php } ?>
-                            </div>
-                        </div>
-                    </div>
+      <div class="ui-photos__widget-list">
+        <?php if ($photos){ ?>
+          <?php foreach($photos as $photo){ ?>
+            <?php $presets = array_keys($photo['image']); $small_preset = end($presets); ?>
+            <div class="preview" rel="<?php echo $photo['id']; ?>">
+              <div class="preview-thumb">
+                <a rel="edit_list" class="ajax-modal hover_image" href="<?php echo html_image_src($photo['image'], $preset_big, true); ?>">
+                  <?php echo html_image($photo['image'], $small_preset, $photo['title']); ?>
+                </a>
+                <?php if(empty($is_edit)){ ?>
+                <div class="preview-thumb__actions">
+                  <a class="preview-thumb__actions-delete" href="#" onclick="return icms.photos.remove(<?php echo $photo['id']; ?>)">
+                    <i class="ti-trash"></i> <?php echo LANG_DELETE; ?>
+                  </a>
+                </div>
+                <?php } else { ?>
+                  <?php foreach ($photo['image'] as $preset => $path) { ?>
+                    <?php if($preset == $small_preset){ continue; } ?>
+                    <a title="<?php echo $photo['sizes'][$preset]['width']; ?> x <?php echo $photo['sizes'][$preset]['height']; ?>" rel="edit_list" href="<?php echo html_image_src($photo['image'], $preset, true); ?>"></a>
+                  <?php } ?>
                 <?php } ?>
-            <?php } ?>
-        </div>
+              </div>
+              <div class="preview-info">
+                <fieldset>
+                  <div class="field ft_string">
+                    <label><?php echo LANG_PHOTOS_PHOTO_TITLE; ?></label>
+                    <?php echo html_input('text', 'photos['.$photo['id'].']', $photo['title']); ?>
+                  </div>
 
-        <?php if(empty($is_edit)){ ?>
+                  <div class="field ft_html">
+                    <label>Описание альбома</label>
+                    <?php echo html_editor('content['.$photo['id'].']', $photo['content_source'], array('set_name' => 'photos')); ?>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="field ft_list">
+                        <?php echo html_select('is_private['.$photo['id'].']', array(LANG_PRIVACY_PUBLIC, LANG_PRIVACY_PRIVATE, LANG_PHOTOS_ACCESS_BY_LINK), $photo['is_private']); ?>
+                      </div>
+                    </div>
+
+                    <?php if($types){ ?>
+                      <div class="col-sm-6">
+                        <div class="field ft_list">
+                          <?php echo html_select('type['.$photo['id'].']', $types, $photo['type']); ?>
+                        </div>
+                      </div>
+                    <?php } ?>
+                  </div>
+                </fieldset>
+              </div>
+            </div>
+          <?php } ?>
+        <?php } ?>
+      </div>
+
+      <?php if(empty($is_edit)){ ?>
 
             <div class="preview_template block" style="display:none">
                 <div class="thumb">
@@ -74,14 +84,20 @@
                         <textarea id="" class="textarea" name="" data-upload-url="<?php echo href_to('markitup', 'upload'); ?>"></textarea>
                     </div>
                     <div class="photo_additional">
-                        <div class="photo_privacy">
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <div class="photo_privacy">
                             <?php echo html_select('', array(LANG_PRIVACY_PUBLIC, LANG_PRIVACY_PRIVATE, LANG_PHOTOS_ACCESS_BY_LINK), (isset($album['is_private']) ? $album['is_private'] : 0)); ?>
+                          </div>
                         </div>
                         <?php if($types){ ?>
+                          <div class="col-sm-6">
                             <div class="photo_type">
                                 <?php echo html_select('', $types); ?>
                             </div>
+                          </div>
                         <?php } ?>
+                      </div>
                     </div>
                 </div>
             </div>
@@ -109,3 +125,4 @@
     </div>
 
 </fieldset>
+</div>

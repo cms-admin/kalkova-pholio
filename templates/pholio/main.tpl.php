@@ -11,7 +11,13 @@
   <?php $this->addMainCSS("templates/{$this->name}/css/normalize.css"); ?>
   <?php $this->addMainCSS("templates/{$this->name}/css/flexboxgrid.css"); ?>
   <?php $this->addMainCSS("templates/{$this->name}/css/fonts.css"); ?>
+  <?php $this->addMainCSS("templates/{$this->name}/css/icons.css"); ?>
   <?php $this->addMainCSS("templates/{$this->name}/css/ui.css"); ?>
+
+  <?php $this->addMainJS("templates/{$this->name}/js/jquery.js"); ?>
+  <?php $this->addMainJS("templates/{$this->name}/js/jquery-modal.js"); ?>
+  <?php $this->addMainJS("templates/{$this->name}/js/core.js"); ?>
+  <?php $this->addMainJS("templates/{$this->name}/js/modal.js"); ?>
 
   <?php $this->head(); ?>
 
@@ -32,17 +38,27 @@
     </div>
   <?php endif; ?>
 
+  <div class="wrapper">
+    <header class="header">
+      <?php $this->widgets('top'); ?>
+    </header>
+    <div class="content">
+      <?php $this->body(); ?>
+    </div>
+  </div>
+
+  <footer class="footer">
+    
+  </footer>
+
   <?php if ($is_panel) : ?>
     <aside class="ui-panel">
       <?php $this->widgets('panel'); ?>
     </aside>
   <?php endif; ?>
 
-  <div class="wrapper">
-    <header></header>
-    <div class="content">
-      
-    </div>
-  </div>
+  <?php $this->insertJS("templates/{$this->name}/js/jquery.nice-select.js"); ?>
+
+  <?php $this->insertJS("templates/{$this->name}/js/ui.js"); ?>
 </body>
 </html>

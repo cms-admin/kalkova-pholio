@@ -88,7 +88,7 @@
         'target' => '_blank',
         'href'  => LANG_HELP_URL_CONTENT,
     ));
-
+    
 ?>
 
 <h1><?php echo LANG_CP_SECTION_CONTENT; ?></h1>

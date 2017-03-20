@@ -1,7 +1,19 @@
 /* MAIN UI THEME STYLES */
-body{
+*, html, body{
+  box-sizing: border-box;
+}
+html {
+  height: 100%;
+  font-size: 10px;
+  font-family: sans-serif;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+body {
+  height: 100%;
   font-family: "Lato", sans-serif;
   font-size: 16px;
+  background-color: #f6f6f6;
 }
 body.has-panel{
   padding-left: 64px;
@@ -10,23 +22,76 @@ body.has-panel{
 a{
   text-decoration: none;
 }
-
-/* Панель меню администратора */
+h1, h2, h3, h4, h5, h6{
+  font-family: "Bebas", sans-serif;
+  line-height: 1.1;
+}
+h1, h2, h3{
+  font-weight: 700;
+  margin: 1rem 0;
+}
+h4, h5, h6{
+  font-weight: 600;
+  margin: 0.5rem 0;
+}
+.wrapper {
+  position: relative;
+  min-height: 100%;
+  overflow: hidden;
+  z-index: 1;
+}
+.wrapper::before{
+  position: absolute;
+  top: 0;
+  left: 15px;
+  right: 15px;
+  height: 100%;
+  background-color: #ffffff;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+  content: "";
+}
+.content {
+  position: relative;
+  padding-bottom: 60px; /* отстпуп должен быть равен высоте футера */
+  font-size: 14px;
+  line-height: 1.42857143;
+  z-index: 2;
+  overflow: hidden;
+}
+.footer{
+  position: relative;
+  height: 60px;
+  margin-top: -60px;
+  background: transparent;
+  z-index: 5;
+}
+/* Панель меню администратора --------------------------------------------------------------------------------------- */
 .ui-panel{
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
   position: fixed;
   top: 0;
   left: 0;
-  width: 64px;
+  width: 72px;
   height: 100vh;
   background-color: #2e2e48;
+  z-index: 1000;
 }
 .ui-panel__avatar{
-  flex: none;
+  position: relative;
+  -webkit-box-flex: 0;
+      -ms-flex: none;
+          flex: none;
   width: 100%;
-  height: 64px;
+  min-height: 72px;
   margin: 0 0 20px;
 }
 .ui-panel__avatar-image{
@@ -40,6 +105,9 @@ a{
   height: auto;
 }
 .ui-panel__avatar-name{
+  position: absolute;
+  bottom: 0;
+  left: 0;
   display: block;
   width: 100%;
   font-size: 12px;
@@ -49,32 +117,59 @@ a{
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: #777799;
+  background-color: rgba(37, 35, 57, 0.75);
+  color: #ffffff;
+}
+
+.ui-panel__menu{
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+.ui-panel__menu select{
+  display: none;
 }
 .ui-panel__menu-list{
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  width: 100%;
+  height: 100%;
   margin: 0;
   padding: 0;
-  flex-direction: column;
-  justify-content: space-between;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
   list-style-type: none;
 }
 .ui-panel__menu-list li{
   position: relative;
   display: block;
-  min-height: 64px;
-  padding: 4px 0;
+  padding: 8px 0;
   background-color: transparent;
+  -webkit-transition: background-color 0.5s ease;
   transition: background-color 0.5s ease;
+}
+.ui-panel__menu-list > li + li{
+  margin-top: 10px;
+}
+.ui-panel__menu-list > li:last-child{
+  margin-top: auto;
 }
 .ui-panel__menu-list li:hover{
   background-color: #252339;
 }
 .ui-panel__menu-list li .icon{
-  width: 48px;
-  height: 48px;
-  margin: 0 8px 8px;
-  line-height: 48px;
+  width: 42px;
+  height: 42px;
+  margin: 0 auto 8px;
+  line-height: 1;
   text-align: center;
   font-size: 42px;
   color: #777799;
@@ -92,4 +187,166 @@ a{
 }
 .ui-panel__menu-list ul{
   display: none;
+  position: absolute;
+  top: 0;
+  left: 100%;
+  background-color: #252339;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  z-index: 999999;
+}
+.ui-panel__menu-list li:hover ul{
+  display: block;
+}
+.ui-panel__menu-list ul li{
+  display: block;
+  min-height: 30px;
+  min-width: 200px;
+  line-height: 20px;
+  padding: 0;
+}
+.ui-panel__menu-list ul li a{
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 5px 10px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.ui-panel__menu-list ul li .icon{
+  display: block;
+  -webkit-box-flex: 0;
+      -ms-flex: none;
+          flex: none;
+  width: 20px;
+  height: 20px;
+  font-size: 20px;
+  line-height: 1;
+  margin: 0 4px 0 0;
+}
+.ui-panel__menu-list ul li .title{
+  line-height: 1;
+  font-size: 14px;
+}
+/* Формы создания (редактирования) контента ------------------------------------------------------------------------- */
+.ui-dash{
+  background-color: #f6f6f6;
+}
+.ui-dash__header{
+  width: 100%;
+  margin-bottom: 20px;
+  background-color: #252339;
+}
+.ui-dash__header-inner{
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 100%;
+  height: 72px;
+  padding: 16px 0;
+}
+.ui-dash__header-title{
+  margin: 0;
+  font-size: 18px;
+  color: #ffffff;
+}
+.ui-dash__form .tab{
+  width: 100%;
+  margin: 0 0 20px;
+  background-color: #ffffff;
+  border: 1px solid #dddddd;
+  border-radius: 4px;
+}
+.ui-dash__form fieldset{
+  border: 0 none;
+  background-color: transparent;
+  padding: 10px 15px;
+}
+.ui-dash__form fieldset legend{
+  display: block;
+  margin: 0;
+  padding: 10px 0 0;
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #292929;
+}
+.ui-dash__form .field{
+  display: block;
+  margin-bottom: 20px;
+  float: none;
+}
+.ui-dash__form fieldset .field:last-child{
+  margin-bottom: 0;
+}
+.ui-dash__form .field label{
+  display: block;
+  font-weight: 600;
+  color: #383737;
+  margin: 0 0 10px;
+}
+.ui-dash__form .field input,
+.ui-dash__form .field textarea{
+  display: block;
+  width: 100%;
+  padding: 5px 10px;
+  border: 1px solid #dddddd;
+  border-radius: 4px;
+}
+.ui-dash__form .field .hint{
+  margin: 5px 0 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: #777777;
+}
+.ui-dash__form .field.ft_date .nice-select{
+  display: inline-block;
+  float: none;
+  vertical-align: middle;
+  margin-top: 10px;
+}
+.ui-dash__form .field .ajaxlink{
+  display: inline-block;
+  vertical-align: middle;
+  margin-top: 10px;
+  padding: 10px 15px;
+  border-radius: 4px;
+  background-color: #2e728e;
+  color: #ffffff;
+}
+.ui-dash__form form .buttons{
+  width: 100%;
+  margin: 0 0 20px;
+}
+.ui-dash__form form .buttons .button-submit{
+  display: inline-block;
+  vertical-align: top;
+  padding: 10px 15px;
+  margin-right: 15px;
+  border: 0 none;
+  background-color: #64bd63;
+  color: #ffffff;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.ui-dash__form form .buttons .button-cancel{
+  display: inline-block;
+  vertical-align: top;
+  padding: 10px 15px;
+  border: 0 none;
+  background-color: #ea2c46;
+  color: #ffffff;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+}
+/* Шапка сайта ------------------------------------------------------------------------------------------------------ */
+.header{
+  position: relative;
 }

@@ -2,28 +2,30 @@
 
 class actionAdminContent extends cmsAction {
 
-    public function run($do=false){
+  public function run($do=false){
 
-        // если нужно, передаем управление другому экшену
-        if ($do){
-            $this->runAction('content_'.$do, array_slice($this->params, 1));
-            return;
-        }
+    // если нужно, передаем управление другому экшену
+    if ($do){
+      $this->runAction('content_'.$do, array_slice($this->params, 1));
+      return;
+    }
 
-        $content_model = cmsCore::getModel('content');
+    $content_model = cmsCore::getModel('content');
 
-        $ctypes = $content_model->getContentTypes();
+    $ctypes = $content_model->getContentTypes();
 
-        $tree_path = cmsUser::getCookie('content_tree_path');
-        if($tree_path && ($tree_path = explode('/', $tree_path)) && !empty($tree_path[1]) && ($ctype_id = (int)$tree_path[1])){
-            $ctype = $content_model->getContentType($ctype_id);
-        }
+    $tree_path = cmsUser::getCookie('content_tree_path');
+    if($tree_path && ($tree_path = explode('/', $tree_path)) && !empty($tree_path[1]) && ($ctype_id = (int)$tree_path[1])){
+      $ctype = $content_model->getContentType($ctype_id);
+    }
 
-        if(!empty($ctype)){
-            $grid = $this->loadDataGrid('content_items', false, 'admin.grid_filter.content.'.$ctype['name']);
-        } else {
-            $grid = $this->loadDataGrid('content_items');
-        }
+    if(!empty($ctype)){
+      $grid = $this->loadDataGrid('content_items', false, 'admin.grid_filter.content.'.$ctype['name']);
+      $grid_extend = cmsEventsManager::hook('admin_content_grid', $ctype);
+      $grid = ($grid_extend) ? $grid_extend : $grid;
+    } else {
+      $grid = $this->loadDataGrid('content_items');
+    }
 
         $diff_order = cmsUser::getUPS('admin.grid_filter.content.diff_order');
 

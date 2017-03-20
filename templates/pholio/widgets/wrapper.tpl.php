@@ -1,4 +1,5 @@
 <div class="widget<?php if ($widget['class_wrap']) { ?> <?php echo ltrim($widget['class_wrap'], '.');  } ?>">
+  <div class="container">
 
     <?php if ($widget['title'] && $is_titles){ ?>
         <div class="title<?php if ($widget['class_title']) { ?> <?php echo ltrim($widget['class_title'], '.');  } ?>">
@@ -17,5 +18,5 @@
     <div class="body<?php if ($widget['class']) { ?> <?php echo ltrim($widget['class'], '.');  } ?>">
         <?php echo $widget['body']; ?>
     </div>
-
+  </div>
 </div>
